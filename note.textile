@@ -1,0 +1,319 @@
+h1. Git 更熟悉
+
+# 什麼是 git
+## git 在幹麻
+## git 的指令
+## git 的 config
+# 什麼是 gitlab
+## gitlab 
+# 實際操作
+** 使用帳號密碼的方式 clone gitlab repo 
+** 設定 ssh key
+** 實際操作 commit, add, push 等指令
+** 實際操作 status, diff, log, reset, checkout, branch, merge 等指令
+
+h1. 什麼是 git 
+
+git 他是一個版本控制軟體, 可以讓人們很輕鬆管理各個版本的資料, 除此之外, 他的文件紀錄方式比起我們用一個版本一個版本存還聰明（用比較 Diff 的方式儲存）, 所以其實也可以減少硬碟使用空間。 
+
+h2. git 在幹麻
+
+如上面提到， git 可以作到版本管理，在過程中，會將專案中的檔案透過一些方式，將檔案儲存在一個 ".git" 的資料夾中，裡面紀錄著各個版本的資料，以及他們之間的關係，透過這樣的方式，讓我們可以輕鬆的管理專案中文件的版本。
+
+h2. git 的指令
+
+依照 "git tutorial":https://ncs-redmine.nexcom.com.tw/projects/swrd-common/wiki/Git_Tutorial 中的 "git食物圖解":https://www.slideshare.net/slideshow/git-42427674/42427674#93 ，舉出一些例子讓自己可以快速複習及熟悉
+
+|指令名稱|功能|
+|init | 讓 git 可以針對這個目錄開啟版本管理機制|
+|add [./files]|把所有檔案 / 指定檔案放到 stage 當中|
+|status|查看哪些檔案有在 stage 當中，哪些沒有|
+|commit| 把放在 stage 當中的資料提交到 branch 當中留存|
+|diff| 看有哪些地方被修改，相較於前一個版本|
+|log||
+|reset||
+|checkout||
+|checkout [branchName]||
+|branch| 開一個新的分支|
+|merge|合併分支|
+|remote add origin [remoteUrl]| 與遠端建立關聯 (自己覺得很重要的部份)|
+|push| 將本地的東西丟到遠端|
+
+剩下的部份，其實我覺得多人部份也挺重要的，但因為我這次想先知道個人部份的 log-merge 的部份，所以先寫這個部份。
+另外在檔案中 也有 ".gitignore" 這格檔案，用來把有一些機密文件在使用的時候，被 git 也一起上傳道遠端。
+
+h1. 什麼是 gitlab
+
+根據 "WiKi":https://zh.wikipedia.org/zh-tw/GitLab , gitlab 是一個可以自動 CI(Continuous Integration, 持續整合)/CD(Continuous Delivery and Continuous Deployment, 持續整合及持續交付) 的整合軟體開發平台。
+
+
+h1. 實際操作
+
+h2. 所需材料
+# ncs gitlab
+# 本地的 git 
+# 有安裝 git 的電腦
+
+h2. 1. 使用帳號密碼的方式 clone gitlab repo
+
+# 到公司的 "gitlab":http://ncs-gitlab/
+# 登入帳號
+# 建立一個新的 project
+# clone 下來 （記得注意上面寫的是帳號,只是下面寫密瑪）
+
+|!20250613_171344.png!|!20250613_171456.png!|
+|!20250613_171504.png!|!20250613_171715.png!|
+|!20250613_174844.png!|!20250613_174925.png!|
+
+h2. 2. 設定 ssh key
+
+可以參考 "這篇":https://sinyilin.github.io/git/20191024/1014042378/ 網站, 但因為這裡的 gitlab 版本比較舊, 所以不可以用 rsa （要用 ed25519, -舊的加密演算法- 修正：是更新的 edDSA 演算法的其中一種，詳看 "WIKI":https://zh.wikipedia.org/zh-tw/EdDSA#Ed25519 ，感謝 Kailun 前輩指正錯誤）, 下圖用 rsa 其實會報錯
+
+# 建立 ssh key @ssh-keygen -C "username@nexcom.com.tw"@
+# 將建立出來的 ssh key 存放在電腦當中
+# 將 id_rsa.pub 放到 gitlab 當中
+# 在 terminal 上面寫下 @ssh -T git@ncs-gitlab@ 測試
+# 如果有看到自己名字 就代表成功 如果沒有 就是要在看看哪裡有問題
+
+|!20250616_172512.png!|!20250616_174407.png!|
+|!20250617_094551.png!|
+
+h2. 3. 實際操作 commit, add, push 等指令
+
+如果要先玩簡單的，在 git tutorial 中有一個 "練習網站":https://gitbook.tw/playground 可以玩玩，但我決的我還是直接嘗試看看好了。
+
+# 建立一個新的檔案 firstFile.txt 
+# 寫一些東西（也可以不用）然後存起來
+# 寫下指令 @git add firstFile.txt@ 或是 @git add .@ 把所有的檔案全部放到暫存區(stage area)
+# commit 到 git 的儲存庫當中 @git commit -m "firstCommit"@
+# push 到 gitlab 當中 @git push -u origin master@
+
+|!20250617_104028.png!|!20250617_103926.png!|
+
+h2. 4. 實際操作 status, diff, log, reset, checkout, branch, merge 等指令
+
+在這裡，我想利用自己的筆記作為例子，作到上面這些東西的效果
+
+
+
+h3. git init: 初始化 git 
+
+---
+
+h3. git add: 增加一些文件 （這裡用 familiar git 資料夾和所有子資料夾）
+
+<pre>
+# git init (裡面有提示, 我省略掉, 太多了)
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git init
+已初始化空的 Git 版本庫於 /home/david_chen/MyNewDisk/trainingCourseBackup/.git/
+
+# git add (裡面也有提示, 我省略掉, 太多了)
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git add familiar\ git/
+警告: 正在加入嵌入式 git 版本庫：familiar git/ncs_fw_wrt
+警告: 正在加入嵌入式 git 版本庫：familiar git/test
+
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ 
+</pre>
+
+h3. git status: 看一下現在的狀態
+* 我還有兩個資料夾還沒有 commit，所以會有兩個未追蹤的資料夾
+* 這邊因為我在寫的同時也在編輯，所以可以看到我的有些文件又改了
+
+<pre>
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git status
+位於分支 master
+
+尚無提交
+
+要提交的變更：
+  （使用 "git rm --cached <檔案>..." 以取消暫存）
+        新檔案：   familiar git/20250613_171344.png
+                    ：
+                    ：
+                    ：
+        新檔案：   familiar git/ncs_fw_wrt
+        新檔案：   familiar git/test
+
+尚未暫存以備提交的變更：
+  （使用 "git add <檔案>..." 更新要提交的內容）
+  （使用 "git restore <檔案>..." 捨棄工作區的改動）
+  （提交或捨棄子模組中未追蹤或修改的內容）
+        修改：     familiar git/git_v2.textile
+        修改：     familiar git/test (未追蹤的內容)
+
+未追蹤的檔案:
+  （使用 "git add <檔案>..." 以包含要提交的內容）
+        Linux Environment/
+        modify screenshot name/
+
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ 
+
+</pre>
+
+h3. git commit: 提交到 master branch
+
+bq. <pre>
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git commit -m "firstCommit"
+[master (根提交) 69633d0] firstCommit
+ 15 files changed, 163 insertions(+)
+ create mode 100755 familiar git/20250613_171344.png
+ create mode 100755 familiar git/20250613_171456.png
+ create mode 100755 familiar git/20250613_171504.png
+ create mode 100755 familiar git/20250613_171715.png
+ create mode 100755 familiar git/20250613_174844.png
+ create mode 100755 familiar git/20250613_174925.png
+ create mode 100755 familiar git/20250616_172512.png
+ create mode 100755 familiar git/20250616_174407.png
+ create mode 100755 familiar git/20250617_094551.png
+ create mode 100755 familiar git/20250617_103926.png
+ create mode 100755 familiar git/20250617_104028.png
+ create mode 100755 familiar git/git.textile
+ create mode 100644 familiar git/git_v2.textile
+ create mode 160000 familiar git/ncs_fw_wrt
+ create mode 160000 familiar git/test
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ 
+</pre>
+
+h3. 再 add 一次，這次全部
+
+<pre>
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git add .
+
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git commit -m "commitAllfiles"
+[master 0f43096] commitAllfiles
+ 85 files changed, 3440 insertions(+), 12 deletions(-)
+ create mode 100755 Linux Environment/.vscode/settings.json
+        :
+        :
+        :
+ create mode 100755 modify screenshot name/rename_files.sh
+
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ 
+</pre>
+
+h3. git diff
+
+* 在這裡就可以看到，我在儲存並 commit 後，又有文件在編輯
+
+<pre>
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git diff
+diff --git a/familiar git/git_v2.textile b/familiar git/git_v2.textile
+index 832f740..859be28 100644
+--- a/familiar git/git_v2.textile   
++++ b/familiar git/git_v2.textile   
+@@ -166,4 +166,21 @@ david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git commit -m "firstCommit"
+  create mode 160000 familiar git/ncs_fw_wrt
+  create mode 160000 familiar git/test
+ david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ 
++&lt;/pre&gt;
++
++* 在 add 一次，這次全部
++
++&lt;pre&gt;
++david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git add .
++
++david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git commit -m "commitAllfiles"
++[master 0f43096] commitAllfiles
++ 85 files changed, 3440 insertions(+), 12 deletions(-)
++ create mode 100755 Linux Environment/.vscode/settings.json
++        :
++        :
++        :
++ create mode 100755 modify screenshot name/rename_files.sh
++
++david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ 
+ &lt;/pre&gt;
+\ No newline at end of file
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ 
+
+</pre>
+
+h3. git branch
+
+* 我先新增一個新的檔案 "emptyFile.txt" 接著用另外一個 branch commit 最後在 merge
+
+<pre>
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git branch secBranch
+
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git checkout secBranch
+M       familiar git/git_v2.textile
+M       familiar git/test
+已切換至分支「secBranch」
+
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ touch emptyFile.txt
+
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git add .
+
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git commit -m "secBranch commit"
+[secBranch bff9fb1] secBranch commit
+ 2 files changed, 61 insertions(+), 2 deletions(-)
+ create mode 100644 emptyFile.txt
+
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ 
+</pre>
+
+* 然後我的 git_v2.textile 因為同時也在編輯，所以回到 master branch commit
+
+<pre>
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git checkout master
+M       familiar git/test
+已切換至分支「master」
+
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ 
+
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git add .
+
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git commit -m "masterBranchCommit2"
+[master a8e520c] masterBranchCommit2
+ 1 file changed, 6 insertions(+)
+
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ ls -al
+總用量 24
+drwxr-xr-x. 6 david_chen david_chen 4096  6月 18 16:08  .
+drwxrwxrwx  5 david_chen david_chen 4096  6月 18 10:11  ..
+drwxrwxrwx. 4 david_chen david_chen 4096  6月 18 16:08 'familiar git'
+drwxr-xr-x. 7 david_chen david_chen 4096  6月 18 16:10  .git
+drwxrwxrwx. 5 david_chen david_chen 4096  6月 18 09:49 'Linux Environment'
+drwxrwxrwx. 2 david_chen david_chen 4096  6月 17 16:31 'modify screenshot name'
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ 
+
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git checkout secBranch
+M       familiar git/test
+已切換至分支「secBranch」
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ ls -al
+總用量 24
+drwxr-xr-x. 6 david_chen david_chen 4096  6月 18 16:11  .
+drwxrwxrwx  5 david_chen david_chen 4096  6月 18 10:11  ..
+-rw-r--r--. 1 david_chen david_chen    0  6月 18 16:11  emptyFile.txt
+drwxrwxrwx. 4 david_chen david_chen 4096  6月 18 16:11 'familiar git'
+drwxr-xr-x. 7 david_chen david_chen 4096  6月 18 16:11  .git
+drwxrwxrwx. 5 david_chen david_chen 4096  6月 18 09:49 'Linux Environment'
+drwxrwxrwx. 2 david_chen david_chen 4096  6月 17 16:31 'modify screenshot name'
+
+</pre>
+* 可以看到 emptyFile.txt 在切換到  master 的時候不見， 在 secBranch 的時候又出現
+
+h3. merge: 將 secBranch 合併回到 master
+
+* 這裡有個大麻煩, 就是因為我的 git_v2.textile 因為在 master 那邊又編輯過，可以說兩邊的東西不一樣，所以如果直接合併，可能會發生錯誤。
+* 因為我也不確定，所以我找一下網路。
+* 根據各個前輩們的
+
+# 回到  master, 開始合併
+
+<pre>
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ git merge secBranch
+自動合併 familiar git/git_v2.textile
+衝突（內容）：合併衝突於 familiar git/git_v2.textile
+自動合併失敗，修正衝突然後提交修正的結果。
+david_chen@fedora:~/MyNewDisk/trainingCourseBackup$ 
+</pre>
+
+因為我的 git_v2.textile 在剛剛有提到有問題，所以我們必須處理。
+
+(但我改到壞掉了，明天在處理）
+
+h2. reference:
+# "Day23｜【Git】各種合併衝突與分別解決方式":https://ithelp.ithome.com.tw/articles/10277790
+# "【Git教學】分支合併: merge 與 rebase 差異":https://www.maxlist.xyz/2020/05/02/git-merge-rebase/
+# "[第二週]Git 進階使用 Branch、Merge":https://miahsuwork.medium.com/%E7%AC%AC%E4%BA%8C%E9%80%B1-git-%E9%80%B2%E9%9A%8E%E4%BD%BF%E7%94%A8-branch-merge-a571cc0a95de
